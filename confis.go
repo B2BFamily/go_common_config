@@ -17,9 +17,9 @@ import (
 )
 
 var (
-	configArg = "config:"
 	//Путь к исполняемой программе, необходим для отладки
 	CurrentPath = ""
+	configArg   = "config:"
 )
 
 func getConfigName() (path string, err error) {
