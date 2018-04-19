@@ -1,3 +1,10 @@
+//Библиотека для работы с конфигами
+//Конфиги должны хранится в json файлах в папке config рядом с запускаемым файлом и называться config.{mode.}json
+//{mode} - атрибут для выбора конфиг файла, указывается при запуске программы при помощи флага config:{mode}
+//к примеру
+//	./main.exe config:dev
+//для конфига будет браться файл /config/config.dev.json
+//если флаг отстутствует, то берется config.json
 package config
 
 import (
@@ -10,7 +17,8 @@ import (
 )
 
 var (
-	configArg   = "config:"
+	configArg = "config:"
+	//Путь к исполняемой программе, необходим для отладки
 	CurrentPath = ""
 )
 
@@ -46,7 +54,6 @@ func getConfigName() (path string, err error) {
 }
 
 func readStringFromConfigFile() (jsonStr []byte, err error) {
-
 	filename, e := getConfigName()
 	if len(filename) == 0 {
 		err = e
