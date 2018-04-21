@@ -10,7 +10,7 @@ package config
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -24,18 +24,10 @@ var (
 
 func getConfigName() (path string, err error) {
 	path = ""
-	fmt.Println(CurrentPath)
 	dirname := ""
 	if len(CurrentPath) != 0 {
 		dirname = CurrentPath
 	} else {
-		ex, err := os.Executable()
-		if err != nil {
-			panic(err)
-		}
-		exPath := filepath.Dir(ex)
-		fmt.Println(exPath)
-
 		dirname, err = filepath.Abs(filepath.Dir(os.Args[0]))
 		if err != nil {
 			return path, err
@@ -75,45 +67,36 @@ func readStringFromConfigFile() (jsonStr []byte, err error) {
 }
 
 func getConfigFromPath(configStr []byte, pathName string, configuration interface{}) (err error) {
-	paths := strings.Split(pathName, ".")
 	// создаем срез для параметров json объекта верхнего уровня
-	c := make(map[string]interface{})
+	obj := make(map[string]interface{})
 
 	// unmarschal JSON
-	json.Unmarshal(configStr, &c)
-	for s, value := range c {
-		if s == paths[0] {
-			jsonString, _ := json.Marshal(value)
-			if len(paths) == 1 {
-				err = json.Unmarshal(jsonString, &configuration)
+	err = json.Unmarshal(configStr, &obj)
+	if err != nil {
+		return
+	}
+
+	if len(pathName) != 0 {
+		paths := strings.Split(pathName, ".")
+		for _, path := range paths {
+			if obj[path] != nil {
+				obj = obj[path].(map[string]interface{})
 			} else {
-				getConfigFromPath(jsonString, strings.Join(paths[1:], "."), &configuration)
+				return errors.New("path not found")
 			}
-			return
+
 		}
 	}
+
+	jsonString, _ := json.Marshal(obj)
+	err = json.Unmarshal(jsonString, &configuration)
 	return
 }
 
 //получение текущей конфигурации для всего проекта
 func GetConfig(configuration interface{}) (err error) {
-	filename, _ := getConfigName()
-	if len(filename) == 0 {
-		return
-	}
-
-	file, err := os.Open(filename)
-	if err != nil {
-		return
-	}
-
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&configuration)
-	if err != nil {
-		return
-	}
-
-	return
+	configStr, _ := readStringFromConfigFile()
+	return getConfigFromPath(configStr, "", &configuration)
 }
 
 //получение конфигурации, находящейся по указанному в pathName пути
