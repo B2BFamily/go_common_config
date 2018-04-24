@@ -50,13 +50,9 @@ func TestGetConfig_ErrorInt(t *testing.T) {
 	}
 	configuration := fakeFullStruct{}
 	jsonStr, _ := base.readStringFromConfigFile()
-	err := getConfigFromPath(jsonStr, "path1.path2", &configuration)
-	if err != nil {
-		t.Error("GetConfig error on exec", err)
-	}
-	if configuration.Path1.Path2.Int != zeroValue.Int {
-		t.Error("GetConfig error on reading data")
-
+	err := getConfigFromPath(jsonStr, "", &configuration)
+	if err == nil {
+		t.Error("cannot unmarshal {type} into Go struct field {field} of type {type}")
 	}
 }
 func TestGetConfig_ErrorString(t *testing.T) {
@@ -65,13 +61,9 @@ func TestGetConfig_ErrorString(t *testing.T) {
 	}
 	configuration := fakeFullStruct{}
 	jsonStr, _ := base.readStringFromConfigFile()
-	err := getConfigFromPath(jsonStr, "path1.path2", &configuration)
-	if err != nil {
-		t.Error("GetConfig error on exec", err)
-	}
-	if configuration.Path1.Path2.String != zeroValue.String {
-		t.Error("GetConfig error on reading data")
-
+	err := getConfigFromPath(jsonStr, "", &configuration)
+	if err == nil {
+		t.Error("cannot unmarshal {type} into Go struct field {field} of type {type}")
 	}
 }
 func TestGetConfig_ErrorBool(t *testing.T) {
@@ -80,12 +72,8 @@ func TestGetConfig_ErrorBool(t *testing.T) {
 	}
 	configuration := fakeFullStruct{}
 	jsonStr, _ := base.readStringFromConfigFile()
-	err := getConfigFromPath(jsonStr, "path1.path2", &configuration)
-	if err != nil {
-		t.Error("GetConfig error on exec", err)
-	}
-	if configuration.Path1.Path2.Bool != zeroValue.Bool {
-		t.Error("GetConfig error on reading data")
-
+	err := getConfigFromPath(jsonStr, "", &configuration)
+	if err == nil {
+		t.Error("cannot unmarshal {type} into Go struct field {field} of type {type}")
 	}
 }
