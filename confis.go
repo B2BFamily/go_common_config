@@ -73,7 +73,7 @@ func getConfigFromPath(configStr []byte, pathName string, configuration interfac
 	// unmarschal JSON
 	err = json.Unmarshal(configStr, &obj)
 	if err != nil {
-		return
+		return err
 	}
 
 	if len(pathName) != 0 {
@@ -90,7 +90,7 @@ func getConfigFromPath(configStr []byte, pathName string, configuration interfac
 
 	jsonString, _ := json.Marshal(obj)
 	err = json.Unmarshal(jsonString, &configuration)
-	return
+	return err
 }
 
 //получение текущей конфигурации для всего проекта
