@@ -11,6 +11,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -42,6 +43,8 @@ func getConfigName() (path string, err error) {
 	}
 
 	path = filepath.Dir(dirname) + "\\config\\config." + mode + "json"
+	fmt.Println(dirname)
+	fmt.Println(path)
 	return
 }
 
