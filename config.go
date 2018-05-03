@@ -42,7 +42,7 @@ func getConfigName() (path string, err error) {
 		}
 	}
 
-	path = filepath.Join(dirname, config, "config."+mode+"json")
+	path = filepath.Join(dirname, "config", "config."+mode+"json")
 	fmt.Println(dirname)
 	fmt.Println(path)
 	return
