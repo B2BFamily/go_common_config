@@ -31,8 +31,6 @@ func getConfigName() (path string, err error) {
 	} else {
 		dirname, err = filepath.Abs(filepath.Dir(os.Args[0]))
 		if err != nil {
-			fmt.Println(err)
-			fmt.Println(path)
 			return path, err
 		}
 	}
@@ -44,7 +42,7 @@ func getConfigName() (path string, err error) {
 		}
 	}
 
-	path = filepath.Dir(dirname) + "\\config\\config." + mode + "json"
+	path = filepath.Join(dirname, config, "config."+mode+"json")
 	fmt.Println(dirname)
 	fmt.Println(path)
 	return
