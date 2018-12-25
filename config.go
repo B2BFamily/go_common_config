@@ -5,7 +5,7 @@
 //	./main.exe config:dev
 //для конфига будет браться файл /config/config.dev.json
 //если флаг отстутствует, то берется config.json
-package config
+package go_common_config
 
 import (
 	"bytes"

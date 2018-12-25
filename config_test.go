@@ -1,4 +1,4 @@
-package config
+package go_common_config
 
 import "testing"
 
