@@ -41,6 +41,10 @@ func getConfigName() (path string, err error) {
 		}
 	}
 
+	if mode == "" {
+		mode = "dev."
+	}
+
 	path = filepath.Join(dirname, "config", "config."+mode+"json")
 	return
 }
